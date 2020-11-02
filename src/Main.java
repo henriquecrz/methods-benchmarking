@@ -1,45 +1,27 @@
+import java.util.Arrays;
 import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
+        int[][] arrays = getArrays();
+        int[][] arraysCopy = new int[arrays.length][];
+
+        copyArray(arrays, arraysCopy);
+        bubbleSortBenchmarking(arraysCopy);
+        copyArray(arrays, arraysCopy);
+        mergeSortBenchmarking(arraysCopy);
+    }
+
+    public static int[][] getArrays() {
         int array100[] = new int[100];
         int array1000[] = new int[1000];
         int array10000[] = new int[10000];
-        int arrays[][] = { array100, array1000, array10000 };
+        int array100000[] = new int[100000];
+        int arrays[][] = { array100, array1000, array10000, array100000 };
 
         fillArrays(arrays);
 
-        System.out.println("bubbleSort:\n");
-
-        for (int[] array : arrays) {
-            long start = System.currentTimeMillis();
-
-            SortMethods.bubbleSort(array);
-
-            long end = System.currentTimeMillis();
-
-            // printArray(array);
-
-            System.out.println("Array of " + array.length + " elements:");
-            System.out.println("Time spent: " + (end - start) + "ms");
-        }
-
-        printArray(arrays[0]);
-
-        // System.out.println("\nmergeSort:\n");
-
-        // for (int[] array : arrays) {
-        //     long start = System.currentTimeMillis();
-
-        //     SortMethods.mergeSort(array, 0, array.length - 1);
-
-        //     long end = System.currentTimeMillis();
-
-        //     printArray(array);
-
-        //     System.out.println("Array of " + array.length + " elements:");
-        //     System.out.println("Time spent: " + (end - start) + "ms");
-        // }
+        return arrays;
     }
 
     public static void fillArrays(int[][] arrays) {
@@ -54,11 +36,43 @@ public class Main {
         return new Random().nextInt();
     }
 
-    public static void printArray(int arr[]) {
-        int n = arr.length;
+    public static void copyArray(int arrays[][], int arraysCopy[][]) {
+        for (int i = 0; i < arrays.length; i++) {
+            arraysCopy[i] = Arrays.copyOf(arrays[i], arrays[i].length);
+        }
+    }
 
-        for (int i = 0; i < n; ++i) {
-            System.out.println(arr[i] + " ");
+    public static void bubbleSortBenchmarking(int[][] arrays) {
+        System.out.println("bubbleSort:");
+
+        for (int[] array : arrays) {
+            long start = System.currentTimeMillis();
+
+            SortMethods.bubbleSort(array);
+
+            long end = System.currentTimeMillis();
+
+            System.out.println(" Array of " + array.length + " elements: " + (end - start) + "ms");
+        }
+    }
+
+    public static void mergeSortBenchmarking(int[][] arrays) {
+        System.out.println("\nmergeSort:");
+
+        for (int[] array : arrays) {
+            long start = System.currentTimeMillis();
+
+            SortMethods.mergeSort(array, 0, array.length - 1);
+
+            long end = System.currentTimeMillis();
+
+            System.out.println(" Array of " + array.length + " elements: " + (end - start) + "ms");
+        }
+    }
+
+    public static void printArray(int array[]) {
+        for (int i = 0; i < array.length; ++i) {
+            System.out.println(array[i]);
         }
     }
 }
